@@ -13,7 +13,7 @@ app = FastAPI(title="SmartCare Booking API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://127.0.0.1:5500", "http://localhost:5500"],
+    allow_origins=["*"]
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -390,3 +390,4 @@ def cancel_appointment(appt_id: int):
     conn.commit()
     conn.close()
     return {"ok": True}
+
