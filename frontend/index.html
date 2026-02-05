@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SmartCare Booking</title>
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:#111a2f;
+      --card2:#0f1830;
+      --text:#e7eefc;
+      --muted:#b7c4e3;
+      --line:#223154;
+      --brand:#6ea8fe;
+      --ok:#3ddc97;
+      --warn:#ffd166;
+      --bad:#ff5c5c;
+      --chip:#152244;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 16px;
+      --btn:#2a4cff;
+      --btn2:#1a2a52;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue";
+      background: radial-gradient(1200px 500px at 15% -10%, rgba(110,168,254,.25), transparent 60%),
+                  radial-gradient(900px 500px at 90% 10%, rgba(61,220,151,.18), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+    }
+
+    a{color:inherit}
+    .container{
+      max-width: 980px;
+      margin: 32px auto;
+      padding: 0 16px 64px;
+    }
+
+    /* Top bar */
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom: 18px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      cursor:pointer;
+      user-select:none;
+    }
+    .logo-img{
+     height: 70px;
+     width: auto;
+     display:block;
+     filter: drop-shadow(0 10px 18px rgba(0,0,0,.35));
+    }
+    .brand:hover .logo-img{
+     opacity: .92;
+    }
+
+    .brand h1{
+      margin:0;
+      font-size: 20px;
+      letter-spacing:.2px;
+    }
+    .brand small{
+      display:block;
+      color:var(--muted);
+      font-size: 12px;
+      margin-top:2px;
+    }
+
+    .pill{
+      border:1px solid var(--line);
+      background: rgba(17,26,47,.7);
+      padding:10px 12px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    /* Card */
+    .card{
+      background: linear-gradient(180deg, rgba(17,26,47,.92), rgba(15,24,48,.92));
+      border: 1px solid rgba(34,49,84,.8);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    .row{
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+    .col{
+      flex:1 1 320px;
+      min-width: 280px;
+    }
+
+    h2{
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+    p{
+      margin: 0 0 12px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    /* Inputs */
+    label{
+      display:block;
+      font-size: 12px;
+      color: var(--muted);
+      margin: 10px 0 6px;
+    }
+    input, select{
+      width:100%;
+      padding: 12px 12px;
+      border-radius: 12px;
+      border:1px solid rgba(34,49,84,.9);
+      background: rgba(8,14,30,.55);
+      color: var(--text);
+      outline: none;
+    }
+    input:focus, select:focus{
+      border-color: rgba(110,168,254,.9);
+      box-shadow: 0 0 0 3px rgba(110,168,254,.15);
+    }
+
+    /* Buttons */
+    .btnbar{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top: 14px;
+    }
+    button{
+      border:0;
+      border-radius: 12px;
+      padding: 11px 14px;
+      cursor:pointer;
+      font-weight: 600;
+      color: var(--text);
+      background: var(--btn2);
+      border: 1px solid rgba(34,49,84,.9);
+    }
+    button.primary{
+      background: linear-gradient(135deg, rgba(42,76,255,.95), rgba(110,168,254,.95));
+      border: 0;
+    }
+    button.ghost{
+      background: transparent;
+      border:1px solid rgba(34,49,84,.9);
+      color: var(--text);
+    }
+    button:disabled{
+      opacity:.45;
+      cursor:not-allowed;
+    }
+
+    /* Chips */
+    .chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top: 10px;
+    }
+    .chip{
+      padding: 10px 12px;
+      border-radius: 999px;
+      border:1px solid rgba(34,49,84,.9);
+      background: rgba(21,34,68,.55);
+      color: var(--text);
+      font-size: 13px;
+      cursor:pointer;
+      user-select:none;
+    }
+    .chip.selected{
+      border-color: rgba(110,168,254,.95);
+      box-shadow: 0 0 0 3px rgba(110,168,254,.15);
+      background: rgba(110,168,254,.12);
+    }
+
+    /* Stepper */
+    .steps{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-bottom: 14px;
+    }
+    .step{
+      font-size:12px;
+      color: var(--muted);
+      padding:8px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(34,49,84,.7);
+      background: rgba(17,26,47,.55);
+    }
+    .step.active{
+      color: var(--text);
+      border-color: rgba(110,168,254,.8);
+      background: rgba(110,168,254,.12);
+    }
+
+    /* Calendar */
+    .calendarHeader{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top: 10px;
+    }
+    .legend{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .dot{display:inline-block;width:10px;height:10px;border-radius:999px;margin-right:6px}
+    .dot.low{background:var(--ok)}
+    .dot.med{background:var(--warn)}
+    .dot.high{background:rgba(110,168,254,.9)}
+    .dot.full{background:var(--bad)}
+
+    .grid{
+      margin-top: 12px;
+      display:grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+    }
+    .dow{
+      font-size: 11px;
+      color: var(--muted);
+      text-align:center;
+      padding: 6px 0;
+    }
+    .day{
+      border-radius: 12px;
+      border:1px solid rgba(34,49,84,.85);
+      background: rgba(8,14,30,.35);
+      padding: 10px 10px;
+      min-height: 74px;
+      cursor:pointer;
+      user-select:none;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+    .day:hover{border-color: rgba(110,168,254,.65)}
+    .day.disabled{
+      opacity:.45;
+      cursor:not-allowed;
+    }
+    .day.selected{
+      border-color: rgba(110,168,254,.95);
+      box-shadow: 0 0 0 3px rgba(110,168,254,.15);
+      background: rgba(110,168,254,.10);
+    }
+    .day .num{
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--text);
+    }
+    .badge{
+      margin-top: 8px;
+      font-size: 11px;
+      color: var(--muted);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+    }
+    .lvl{
+      padding: 4px 8px;
+      border-radius: 999px;
+      border:1px solid rgba(34,49,84,.75);
+      background: rgba(21,34,68,.5);
+      color: var(--text);
+      font-size: 11px;
+    }
+    .lvl.low{border-color: rgba(61,220,151,.5)}
+    .lvl.med{border-color: rgba(255,209,102,.55)}
+    .lvl.high{border-color: rgba(110,168,254,.55)}
+    .lvl.full{
+      border-color: rgba(255,92,92,.9);
+      background: rgba(255,92,92,.15);
+    }
+    .fullDay{
+      border-color: rgba(255,92,92,.9) !important;
+      background: rgba(255,92,92,.10) !important;
+    }
+
+    /* Slot buttons */
+    .slots{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+    @media (max-width: 720px){
+      .slots{grid-template-columns: repeat(2,1fr)}
+    }
+    .slot{
+      padding: 10px 12px;
+      border-radius: 12px;
+      border:1px solid rgba(34,49,84,.9);
+      background: rgba(21,34,68,.45);
+      text-align:center;
+      cursor:pointer;
+      user-select:none;
+      font-weight:600;
+      font-size: 13px;
+    }
+    .slot:hover{border-color: rgba(110,168,254,.7)}
+    .slot.selected{
+      border-color: rgba(110,168,254,.95);
+      box-shadow: 0 0 0 3px rgba(110,168,254,.15);
+      background: rgba(110,168,254,.12);
+    }
+    .slot.disabled{
+      opacity:.45;
+      cursor:not-allowed;
+      text-decoration: line-through;
+    }
+
+    /* Cards list */
+    .apptCard{
+      border:1px solid rgba(34,49,84,.85);
+      background: rgba(8,14,30,.35);
+      border-radius: 14px;
+      padding: 12px;
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .apptCard small{color: var(--muted)}
+    .status{
+      padding: 4px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(34,49,84,.75);
+      font-size: 12px;
+      color: var(--text);
+    }
+    .status.booked{border-color: rgba(61,220,151,.55); background: rgba(61,220,151,.12)}
+    .status.cancelled{border-color: rgba(255,92,92,.65); background: rgba(255,92,92,.12)}
+
+    .msg{
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(34,49,84,.8);
+      background: rgba(21,34,68,.35);
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .msg.error{
+      border-color: rgba(255,92,92,.65);
+      background: rgba(255,92,92,.12);
+      color: var(--text);
+    }
+    .msg.ok{
+      border-color: rgba(61,220,151,.6);
+      background: rgba(61,220,151,.12);
+      color: var(--text);
+    }
+
+    .hidden{display:none !important}
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="topbar">
+        <div class="brand" id="brandHome" role="button" tabindex="0" aria-label="Go to dashboard">
+        <img src="assets/logo.png" alt="SmartCare Booking" class="logo-img">
+        </div>
+
+      <div class="pill" id="envPill">Backend: <span id="backendStatus">checking...</span></div>
+    </div>
+
+    <div class="steps" aria-label="Progress">
+      <div class="step" id="stHome">Home</div>
+      <div class="step" id="stSituation">Situation</div>
+      <div class="step" id="stService">Service</div>
+      <div class="step" id="stCalendar">Calendar</div>
+      <div class="step" id="stTime">Time</div>
+      <div class="step" id="stReview">Review</div>
+      <div class="step" id="stDone">Done</div>
+    </div>
+
+    <!-- HOME -->
+    <section class="card" id="screenHome">
+      <h2>Start your booking</h2>
+      <p>Answer a few quick questions, then choose a low-crowd day for a faster visit.</p>
+
+      <div class="row">
+        <div class="col">
+          <label for="patientName">Patient name</label>
+          <input id="patientName" type="text" placeholder="Example: Ali Shabana" />
+
+          <label for="patientPhone">Phone number</label>
+          <input id="patientPhone" type="text" placeholder="Example: 059xxxxxxx" />
+
+          <div class="btnbar">
+            <button class="primary" id="btnStart">Start Booking</button>
+            <button class="ghost" id="btnMyAppts">My Appointments</button>
+          </div>
+
+          <div class="msg" id="homeMsg">Tip: You can book for yourself or for someone else.</div>
+        </div>
+
+        <div class="col">
+          <h2>What this system does</h2>
+          <p>
+            SmartCare Booking guides patients without asking them to pick a department first.
+            It shows crowd level per day, so patients can select a less crowded date.
+          </p>
+          <div class="msg">
+            Accessibility: clear labels, large clickable buttons, keyboard-friendly navigation.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SITUATION -->
+    <section class="card hidden" id="screenSituation">
+      <h2>What best describes your situation today?</h2>
+      <p>Select one option. This helps guide your appointment type.</p>
+
+      <div class="chips" id="situationChips" aria-label="Situation options"></div>
+
+      <div class="msg" id="situationMsg">Selected: <b id="situationSelected">None</b></div>
+
+      <div class="btnbar">
+        <button id="sitBack">Back</button>
+        <button class="primary" id="sitNext" disabled>Next</button>
+      </div>
+    </section>
+
+    <!-- SERVICE -->
+    <section class="card hidden" id="screenService">
+      <h2>Select a service</h2>
+      <p>You will still receive guidance. Service selection helps availability and scheduling.</p>
+
+      <div class="chips" id="serviceChips" aria-label="Service options"></div>
+
+      <div class="msg" id="serviceMsg">Selected: <b id="serviceSelected">None</b></div>
+
+      <div class="btnbar">
+        <button id="srvBack">Back</button>
+        <button class="primary" id="srvNext" disabled>Next</button>
+      </div>
+    </section>
+
+    <!-- CALENDAR -->
+    <section class="card hidden" id="screenCalendar">
+      <h2>Choose a date</h2>
+      <p id="calTip">Tip: Choose low-crowd days to reduce waiting time.</p>
+
+      <div class="calendarHeader">
+        <div class="btnbar">
+          <button id="monthPrev" disabled>Previous</button>
+          <button id="monthNext">Next</button>
+        </div>
+
+        <div class="pill">
+          Showing: <b id="monthLabel"></b>
+        </div>
+
+        <div class="legend" aria-label="Legend">
+          <span><span class="dot low"></span>Low</span>
+          <span><span class="dot med"></span>Medium</span>
+          <span><span class="dot high"></span>High</span>
+          <span><span class="dot full"></span>FULL</span>
+        </div>
+      </div>
+
+      <div class="grid" id="dowRow" aria-hidden="true"></div>
+      <div class="grid" id="calendarGrid" aria-label="Calendar days"></div>
+
+      <div class="msg" id="calMsg">Selected date: <b id="dateSelected">None</b></div>
+
+      <div class="btnbar">
+        <button id="calBack">Back</button>
+        <button class="primary" id="calNext" disabled>Next</button>
+      </div>
+    </section>
+
+    <!-- TIME -->
+    <section class="card hidden" id="screenTime">
+      <h2>Choose a time</h2>
+      <p>Booked slots are disabled. Choose an available slot.</p>
+
+      <div class="slots" id="slotsGrid" aria-label="Time slots"></div>
+
+      <div class="msg" id="timeMsg">Selected time: <b id="timeSelected">None</b></div>
+
+      <div class="btnbar">
+        <button id="timeBack">Back</button>
+        <button class="primary" id="timeNext" disabled>Next</button>
+      </div>
+    </section>
+
+    <!-- REVIEW -->
+    <section class="card hidden" id="screenReview">
+      <h2>Review and confirm</h2>
+      <p>Please verify the details before confirming.</p>
+
+      <div class="msg" id="reviewBox"></div>
+      <div class="msg error hidden" id="reviewErr"></div>
+      <div class="msg ok hidden" id="reviewOk"></div>
+
+      <div class="btnbar">
+        <button id="revBack">Back</button>
+        <button class="primary" id="revConfirm">Confirm Booking</button>
+      </div>
+    </section>
+
+    <!-- DONE -->
+    <section class="card hidden" id="screenDone">
+      <h2>Appointment confirmed</h2>
+      <p>Your booking is completed. You can view it under My Appointments.</p>
+
+      <div class="msg ok" id="doneBox"></div>
+
+      <div class="btnbar">
+        <button class="primary" id="doneHome">Go to Dashboard</button>
+        <button class="ghost" id="doneMyAppts">My Appointments</button>
+      </div>
+    </section>
+
+    <!-- MY APPOINTMENTS -->
+    <section class="card hidden" id="screenMyAppts">
+      <h2>My appointments</h2>
+      <p>Enter your phone number to view your bookings.</p>
+
+      <label for="myPhone">Phone number</label>
+      <input id="myPhone" type="text" placeholder="Example: 059xxxxxxx" />
+
+      <div class="btnbar">
+        <button class="primary" id="loadAppts">Load appointments</button>
+        <button class="ghost" id="myBack">Back to Dashboard</button>
+      </div>
+
+      <div class="msg hidden" id="myMsg"></div>
+      <div id="apptsList"></div>
+    </section>
+  </div>
+
+  <script>
+    // ---------------------------
+    // CONFIG
+    // ---------------------------
+    const API = "http://127.0.0.1:8000";
+    const ALLOWED_MONTHS_AHEAD = 12;
+
+    // ---------------------------
+    // STATE
+    // ---------------------------
+    const state = {
+      patientName: "",
+      phone: "",
+      situation: "",
+      serviceId: null,
+      serviceName: "",
+      date: "",
+      time: "",
+      monthCursor: null, // Date object at first day of month
+      services: [],
+      slots: [],
+      dailyCapacity: 0
+    };
+
+    // ---------------------------
+    // Helpers
+    // ---------------------------
+    const $ = (id) => document.getElementById(id);
+
+    function setStep(activeId){
+      const steps = ["stHome","stSituation","stService","stCalendar","stTime","stReview","stDone"];
+      steps.forEach(s => $(s).classList.remove("active"));
+      $(activeId).classList.add("active");
+    }
+
+    function showScreen(screenId){
+      const screens = ["screenHome","screenSituation","screenService","screenCalendar","screenTime","screenReview","screenDone","screenMyAppts"];
+      screens.forEach(s => $(s).classList.add("hidden"));
+      $(screenId).classList.remove("hidden");
+    }
+
+    function ym(d){
+      const y = d.getFullYear();
+      const m = String(d.getMonth()+1).padStart(2,"0");
+      return `${y}-${m}`;
+    }
+
+    function ymd(d){
+      const y = d.getFullYear();
+      const m = String(d.getMonth()+1).padStart(2,"0");
+      const dd = String(d.getDate()).padStart(2,"0");
+      return `${y}-${m}-${dd}`;
+    }
+
+    function firstOfMonth(d){
+      return new Date(d.getFullYear(), d.getMonth(), 1);
+    }
+
+    function addMonths(d, n){
+      return new Date(d.getFullYear(), d.getMonth()+n, 1);
+    }
+
+    function monthAllowed(d){
+      const cur = firstOfMonth(new Date());
+      const max = addMonths(cur, ALLOWED_MONTHS_AHEAD);
+      const x = firstOfMonth(d);
+      return x >= cur && x <= max;
+    }
+
+    function formatMonthLabel(d){
+      return d.toLocaleString(undefined, {month:"long", year:"numeric"});
+    }
+
+    function escapeHtml(s){
+      return String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
+    }
+
+    // ---------------------------
+    // API calls
+    // ---------------------------
+    async function apiGet(path){
+      const res = await fetch(`${API}${path}`);
+      if(!res.ok){
+        const txt = await res.text();
+        throw new Error(txt || res.statusText);
+      }
+      return res.json();
+    }
+
+    async function apiPost(path, body){
+      const res = await fetch(`${API}${path}`, {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify(body)
+      });
+      if(!res.ok){
+        const txt = await res.text();
+        throw new Error(txt || res.statusText);
+      }
+      return res.json();
+    }
+
+    async function apiPatch(path){
+      const res = await fetch(`${API}${path}`, { method:"PATCH" });
+      if(!res.ok){
+        const txt = await res.text();
+        throw new Error(txt || res.statusText);
+      }
+      return res.json();
+    }
+
+    // ---------------------------
+    // Build chips
+    // ---------------------------
+    function buildSituationChips(){
+      const options = [
+        "Routine check-up",
+        "Feeling unwell",
+        "Need quick consultation",
+        "Follow-up visit",
+        "Booking for someone else"
+      ];
+      const wrap = $("situationChips");
+      wrap.innerHTML = "";
+      options.forEach(opt => {
+        const el = document.createElement("div");
+        el.className = "chip";
+        el.textContent = opt;
+        el.tabIndex = 0;
+        el.addEventListener("click", () => selectSituation(opt, el));
+        el.addEventListener("keydown", (e) => { if(e.key==="Enter") selectSituation(opt, el); });
+        wrap.appendChild(el);
+      });
+    }
+
+    function selectSituation(opt, el){
+      state.situation = opt;
+      $("situationSelected").textContent = opt;
+      $("sitNext").disabled = false;
+      [...$("situationChips").children].forEach(x => x.classList.remove("selected"));
+      el.classList.add("selected");
+    }
+
+    function buildServiceChips(){
+      const wrap = $("serviceChips");
+      wrap.innerHTML = "";
+      state.services.forEach(srv => {
+        const el = document.createElement("div");
+        el.className = "chip";
+        el.textContent = srv.name;
+        el.tabIndex = 0;
+        el.addEventListener("click", () => selectService(srv, el));
+        el.addEventListener("keydown", (e) => { if(e.key==="Enter") selectService(srv, el); });
+        wrap.appendChild(el);
+      });
+    }
+
+    function selectService(srv, el){
+      state.serviceId = srv.id;
+      state.serviceName = srv.name;
+      $("serviceSelected").textContent = srv.name;
+      $("srvNext").disabled = false;
+      [...$("serviceChips").children].forEach(x => x.classList.remove("selected"));
+      el.classList.add("selected");
+    }
+
+    // ---------------------------
+    // Calendar
+    // ---------------------------
+    function buildDOW(){
+      const names = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+      const row = $("dowRow");
+      row.innerHTML = "";
+      names.forEach(n => {
+        const d = document.createElement("div");
+        d.className = "dow";
+        d.textContent = n;
+        row.appendChild(d);
+      });
+    }
+
+    async function loadCalendar(){
+        $("monthLabel").textContent = formatMonthLabel(state.monthCursor);
+
+        const curMonth = firstOfMonth(new Date());
+        const prevMonth = addMonths(state.monthCursor, -1);
+        const nextMonth = addMonths(state.monthCursor, 1);
+
+        // Previous enabled only if it will not go before current month
+        $("monthPrev").disabled = (prevMonth < curMonth);
+
+        // Next disabled if beyond allowed future limit
+        $("monthNext").disabled = !monthAllowed(nextMonth);
+
+        const monthStr = ym(state.monthCursor);
+        const data = await apiGet(`/calendar-load?month=${monthStr}&service_id=${state.serviceId}`);
+
+        renderCalendarGrid(state.monthCursor, data.days, data.daily_capacity);
+    }
+
+
+
+    function renderCalendarGrid(monthDate, days, capacity){
+      state.dailyCapacity = capacity;
+
+      const grid = $("calendarGrid");
+      grid.innerHTML = "";
+
+      const first = firstOfMonth(monthDate);
+      const startDow = first.getDay(); // 0 Sunday
+      for(let i=0;i<startDow;i++){
+        const pad = document.createElement("div");
+        pad.className = "day disabled";
+        pad.style.visibility = "hidden";
+        grid.appendChild(pad);
+      }
+
+      const today = new Date();
+      const todayYMD = ymd(today);
+
+      days.forEach(d => {
+        const cell = document.createElement("div");
+        cell.className = "day";
+
+        const num = document.createElement("div");
+        num.className = "num";
+        num.textContent = String(parseInt(d.date.slice(-2),10));
+
+        const badge = document.createElement("div");
+        badge.className = "badge";
+
+        const count = document.createElement("span");
+        count.textContent = `${d.count}/${capacity}`;
+
+        let lvlClass = "low";
+        if(d.is_full) lvlClass = "full";
+        else if(d.level === "Medium") lvlClass = "med";
+        else if(d.level === "High") lvlClass = "high";
+
+        const lvl = document.createElement("span");
+        lvl.className = `lvl ${lvlClass}`;
+        lvl.textContent = d.is_full ? "FULL" : d.level;
+
+        badge.appendChild(count);
+        badge.appendChild(lvl);
+
+        cell.appendChild(num);
+        cell.appendChild(badge);
+
+        // FULL day styling and disable
+        if(d.is_full){
+          cell.classList.add("fullDay");
+        }
+        if(d.disabled){
+          cell.classList.add("disabled");
+        }
+
+        // Only allow dates from today onwards
+        if(d.date < todayYMD){
+          cell.classList.add("disabled");
+        }
+
+        cell.addEventListener("click", () => {
+          if(cell.classList.contains("disabled")) return;
+          selectDate(d.date, cell);
+        });
+
+        grid.appendChild(cell);
+      });
+    }
+
+    function selectDate(dateStr, cell){
+      state.date = dateStr;
+      $("dateSelected").textContent = dateStr;
+      $("calNext").disabled = false;
+
+      [...$("calendarGrid").children].forEach(x => x.classList.remove("selected"));
+      cell.classList.add("selected");
+    }
+
+    // ---------------------------
+    // Slots
+    // ---------------------------
+    async function loadSlots(){
+    const slotData = await apiGet("/time-slots");
+    state.slots = slotData.slots;
+
+    const booked = await apiGet(`/booked-times?appt_date=${state.date}&service_id=${state.serviceId}`);
+    const bookedSet = new Set(booked.booked_times);
+
+    const grid = $("slotsGrid");
+    grid.innerHTML = "";
+
+    const now = new Date();
+    const todayStr = ymd(now);
+
+    // current time as minutes from midnight
+    const nowMinutes = now.getHours() * 60 + now.getMinutes();
+
+    state.slots.forEach(t => {
+        const el = document.createElement("div");
+        el.className = "slot";
+        el.textContent = t;
+
+        // Convert slot time "HH:MM" to minutes
+        const [hh, mm] = t.split(":").map(Number);
+        const slotMinutes = hh * 60 + mm;
+
+        // Disable if booked
+        const isBooked = bookedSet.has(t);
+
+        // Disable if selected date is today and slot is earlier than now
+        const isPastToday = (state.date === todayStr) && (slotMinutes <= nowMinutes);
+
+        if(isBooked || isPastToday){
+        el.classList.add("disabled");
+        }
+
+        el.addEventListener("click", () => {
+        if(el.classList.contains("disabled")) return;
+        selectTime(t, el);
+        });
+
+        grid.appendChild(el);
+    });
+
+    $("timeSelected").textContent = "None";
+    $("timeNext").disabled = true;
+    state.time = "";
+    }
+
+
+    function selectTime(timeStr, el){
+      state.time = timeStr;
+      $("timeSelected").textContent = timeStr;
+      $("timeNext").disabled = false;
+      [...$("slotsGrid").children].forEach(x => x.classList.remove("selected"));
+      el.classList.add("selected");
+    }
+
+    // ---------------------------
+    // Review + submit
+    // ---------------------------
+    function fillReview(){
+      const html = `
+        <b>Patient:</b> ${escapeHtml(state.patientName)}<br>
+        <b>Phone:</b> ${escapeHtml(state.phone)}<br>
+        <b>Situation:</b> ${escapeHtml(state.situation)}<br>
+        <b>Service:</b> ${escapeHtml(state.serviceName)}<br>
+        <b>Date:</b> ${escapeHtml(state.date)}<br>
+        <b>Time:</b> ${escapeHtml(state.time)}
+      `;
+      $("reviewBox").innerHTML = html;
+      $("reviewErr").classList.add("hidden");
+      $("reviewOk").classList.add("hidden");
+    }
+
+    async function confirmBooking(){
+      $("reviewErr").classList.add("hidden");
+      $("reviewOk").classList.add("hidden");
+
+      try{
+        const payload = {
+          patient_name: state.patientName,
+          phone: state.phone,
+          situation_type: state.situation,
+          service_id: state.serviceId,
+          appt_date: state.date,
+          appt_time: state.time
+        };
+
+        const res = await apiPost("/appointments", payload);
+
+        $("doneBox").innerHTML = `
+          <b>Booked:</b> ${escapeHtml(res.service_name)}<br>
+          <b>Date:</b> ${escapeHtml(res.appt_date)}<br>
+          <b>Time:</b> ${escapeHtml(res.appt_time)}<br>
+          <b>Reference:</b> ${escapeHtml(res.id)}
+        `;
+
+        setStep("stDone");
+        showScreen("screenDone");
+      }catch(err){
+        $("reviewErr").textContent = "Booking failed: " + String(err.message).slice(0,200);
+        $("reviewErr").classList.remove("hidden");
+      }
+    }
+
+    // ---------------------------
+    // My appointments
+    // ---------------------------
+    async function loadAppointments(){
+      const phone = $("myPhone").value.trim();
+      if(!phone){
+        $("myMsg").textContent = "Please enter your phone number.";
+        $("myMsg").className = "msg error";
+        $("myMsg").classList.remove("hidden");
+        return;
+      }
+
+      try{
+        const list = await apiGet(`/appointments?phone=${encodeURIComponent(phone)}`);
+        $("apptsList").innerHTML = "";
+        $("myMsg").classList.add("hidden");
+
+        if(!list.length){
+          $("myMsg").textContent = "No appointments found for this phone number.";
+          $("myMsg").className = "msg";
+          $("myMsg").classList.remove("hidden");
+          return;
+        }
+
+        list.forEach(a => {
+          const card = document.createElement("div");
+          card.className = "apptCard";
+
+          const left = document.createElement("div");
+          left.innerHTML = `
+            <div><b>${escapeHtml(a.service_name)}</b> <span class="status ${a.status}">${escapeHtml(a.status)}</span></div>
+            <small>${escapeHtml(a.appt_date)} at ${escapeHtml(a.appt_time)}</small><br>
+            <small>Ref: ${escapeHtml(a.id)} | Created: ${escapeHtml(a.created_at)}</small>
+          `;
+
+          const right = document.createElement("div");
+          if(a.status === "booked"){
+            const btn = document.createElement("button");
+            btn.textContent = "Cancel";
+            btn.addEventListener("click", async () => {
+              btn.disabled = true;
+              try{
+                await apiPatch(`/appointments/${a.id}/cancel`);
+                await loadAppointments();
+              }catch(e){
+                btn.disabled = false;
+                alert("Cancel failed.");
+              }
+            });
+            right.appendChild(btn);
+          }
+
+          card.appendChild(left);
+          card.appendChild(right);
+          $("apptsList").appendChild(card);
+        });
+
+      }catch(err){
+        $("myMsg").textContent = "Error: " + String(err.message).slice(0,200);
+        $("myMsg").className = "msg error";
+        $("myMsg").classList.remove("hidden");
+      }
+    }
+
+    // ---------------------------
+    // Navigation
+    // ---------------------------
+    function goHome(){
+      setStep("stHome");
+      showScreen("screenHome");
+    }
+
+    function goSituation(){
+      setStep("stSituation");
+      showScreen("screenSituation");
+    }
+
+    function goService(){
+      setStep("stService");
+      showScreen("screenService");
+    }
+
+    function goCalendar(){
+      setStep("stCalendar");
+      showScreen("screenCalendar");
+    }
+
+    function goTime(){
+      setStep("stTime");
+      showScreen("screenTime");
+    }
+
+    function goReview(){
+      setStep("stReview");
+      showScreen("screenReview");
+    }
+
+    function goMyAppts(){
+      showScreen("screenMyAppts");
+      // progress stays where it is, that is fine for a utility page
+    }
+
+    // ---------------------------
+    // Init
+    // ---------------------------
+    async function init(){
+      // backend status
+      try{
+        const res = await apiGet("/");
+        $("backendStatus").textContent = "connected";
+        $("backendStatus").style.color = "#3ddc97";
+      }catch{
+        $("backendStatus").textContent = "offline";
+        $("backendStatus").style.color = "#ff5c5c";
+      }
+
+      buildDOW();
+      buildSituationChips();
+
+      // Load services and slots list
+      state.services = await apiGet("/services");
+      buildServiceChips();
+
+      // initial month cursor
+      state.monthCursor = firstOfMonth(new Date());
+
+      // Events
+      $("brandHome").addEventListener("click", goHome);
+      $("brandHome").addEventListener("keydown", (e) => { if(e.key==="Enter") goHome(); });
+
+      $("btnStart").addEventListener("click", () => {
+        state.patientName = $("patientName").value.trim();
+        state.phone = $("patientPhone").value.trim();
+
+        if(!state.patientName || !state.phone){
+          $("homeMsg").textContent = "Please enter your name and phone number to continue.";
+          $("homeMsg").className = "msg error";
+          return;
+        }
+        $("homeMsg").textContent = "Tip: You can book for yourself or for someone else.";
+        $("homeMsg").className = "msg";
+
+        goSituation();
+      });
+
+      $("btnMyAppts").addEventListener("click", () => {
+        $("myPhone").value = $("patientPhone").value.trim();
+        goMyAppts();
+      });
+
+      $("sitBack").addEventListener("click", goHome);
+      $("sitNext").addEventListener("click", goService);
+
+      $("srvBack").addEventListener("click", goSituation);
+      $("srvNext").addEventListener("click", async () => {
+        // reset selections
+        state.date = "";
+        state.time = "";
+        $("dateSelected").textContent = "None";
+        $("calNext").disabled = true;
+
+        // ensure month cursor within window
+        if(!monthAllowed(state.monthCursor)){
+          state.monthCursor = firstOfMonth(new Date());
+        }
+
+        await loadCalendar();
+        goCalendar();
+      });
+
+      $("calBack").addEventListener("click", goService);
+      $("calNext").addEventListener("click", async () => {
+        await loadSlots();
+        goTime();
+      });
+
+        $("monthPrev").addEventListener("click", async () => {
+        const curMonth = firstOfMonth(new Date());
+        const prev = addMonths(state.monthCursor, -1);
+
+        if(prev < curMonth) return;
+
+        state.monthCursor = prev;
+        state.date = "";
+        $("dateSelected").textContent = "None";
+        $("calNext").disabled = true;
+
+        await loadCalendar();
+        });
+
+
+      $("monthNext").addEventListener("click", async () => {
+        const next = addMonths(state.monthCursor, 1);
+        if(!monthAllowed(next)) return;
+        state.monthCursor = next;
+        state.date = "";
+        $("dateSelected").textContent = "None";
+        $("calNext").disabled = true;
+        await loadCalendar();
+      });
+
+      $("timeBack").addEventListener("click", goCalendar);
+      $("timeNext").addEventListener("click", () => {
+        fillReview();
+        goReview();
+      });
+
+      $("revBack").addEventListener("click", goTime);
+      $("revConfirm").addEventListener("click", confirmBooking);
+
+      $("doneHome").addEventListener("click", goHome);
+      $("doneMyAppts").addEventListener("click", () => {
+        $("myPhone").value = state.phone;
+        goMyAppts();
+      });
+
+      $("myBack").addEventListener("click", goHome);
+      $("loadAppts").addEventListener("click", loadAppointments);
+
+      // default screen
+      goHome();
+    }
+
+    // When leaving Home to booking, keep form state
+    window.addEventListener("load", init);
+  </script>
+</body>
+</html>
