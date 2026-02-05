@@ -118,10 +118,12 @@
     /* Inputs */
     label{
       display:block;
-      font-size: 12px;
+      font-size: 15px;                
+      font-weight: 600;
       color: var(--muted);
-      margin: 10px 0 6px;
+      margin: 14px 0 8px;
     }
+
     input, select{
       width:100%;
       padding: 18px 18px;
@@ -376,6 +378,10 @@
       background: rgba(61,220,151,.12);
       color: var(--text);
     }
+    .hero-input input{
+      font-size: 20px;
+      padding: 20px 20px;
+    }
 
     .hidden{display:none !important}
   </style>
@@ -408,11 +414,15 @@
 
       <div class="row">
         <div class="col">
-          <label for="patientName">Patient name</label>
-          <input id="patientName" type="text" placeholder="Example: Ali Shabana" />
-
-          <label for="patientPhone">Phone number</label>
-          <input id="patientPhone" type="text" placeholder="Example: 059xxxxxxx" />
+      <div class="hero-input">
+        <label for="patientName">Patient name</label>
+        <input id="patientName" type="text" placeholder="Example: Ali Shabana" />
+      </div>
+      
+      <div class="hero-input">
+        <label for="patientPhone">Phone number</label>
+        <input id="patientPhone" type="text" placeholder="Example: 059xxxxxxx" />
+      </div>
 
           <div class="btnbar">
             <button class="primary" id="btnStart">Start Booking</button>
@@ -1176,6 +1186,7 @@
   </script>
 </body>
 </html>
+
 
 
 
